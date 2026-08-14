@@ -1,0 +1,4 @@
+import { createGroup,listGroups } from "../../lib/project-control";
+import { getSmartCareActor,hasSmartCarePermission } from "../../lib/auth-server";
+export async function GET(request:Request){const actor=await getSmartCareActor();if(!actor)return Response.json({error:"Unauthorized"},{status:401});return Response.json({groups:await listGroups(new URL(request.url).searchParams.get("projectId")||undefined)})}
+export async function POST(request:Request){try{const actor=await getSmartCareActor();if(!actor)return Response.json({error:"Unauthorized"},{status:401});if(!await hasSmartCarePermission(request,"project_tasks","create"))return Response.json({error:"Create permission required"},{status:403});return Response.json({group:await createGroup(await request.json(),actor)},{status:201})}catch(error){return Response.json({error:error instanceof Error?error.message:"Unable to create group"},{status:400})}}

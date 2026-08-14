@@ -1,0 +1,8 @@
+project_id = "ibtechar-smartcare-v1"
+
+[auth]
+site_url = "http://localhost:3000"
+additional_redirect_urls = ["http://localhost:3000/auth/callback", "https://*.vercel.app/auth/callback"]
+
+[storage]
+file_size_limit = "100MiB"

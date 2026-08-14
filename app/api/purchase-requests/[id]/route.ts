@@ -1,0 +1,3 @@
+import { updatePurchaseRequest } from "../../../lib/database";
+import { hasSmartCarePermission } from "../../../lib/auth-server";
+export async function PATCH(request:Request,{params}:{params:Promise<{id:string}>}){try{if(!await hasSmartCarePermission(request,"purchase_requests","approve"))return Response.json({error:"Approval permission required"},{status:403});const {id}=await params;const item=await updatePurchaseRequest(id,await request.json() as Record<string,unknown>);return item?Response.json({request:item}):Response.json({error:"Request not found"},{status:404})}catch(error){return Response.json({error:error instanceof Error?error.message:"Unable to update request"},{status:400})}}

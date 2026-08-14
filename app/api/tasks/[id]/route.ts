@@ -1,0 +1,3 @@
+import { respondToProjectTask } from "../../../lib/database";
+import { getSmartCareActor } from "../../../lib/auth-server";
+export async function PATCH(request:Request,{params}:{params:Promise<{id:string}>}){try{const actor=await getSmartCareActor(request);if(!actor)return Response.json({error:"Unauthorized"},{status:401});const {id}=await params;const task=await respondToProjectTask(id,await request.json() as Record<string,unknown>,actor);return task?Response.json({task}):Response.json({error:"Task not found"},{status:404});}catch(error){return Response.json({error:error instanceof Error?error.message:"Unable to update task"},{status:400})}}

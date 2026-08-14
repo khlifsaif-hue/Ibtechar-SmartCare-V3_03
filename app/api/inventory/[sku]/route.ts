@@ -1,0 +1,3 @@
+import { deletePart, updatePart } from "../../../lib/database";
+export async function PATCH(request:Request,{params}:{params:Promise<{sku:string}>}){try{const {sku}=await params;const part=await updatePart(decodeURIComponent(sku),await request.json() as Record<string,unknown>);return part?Response.json({part}):Response.json({error:"Part not found"},{status:404})}catch(error){return Response.json({error:error instanceof Error?error.message:"Unable to update spare part"},{status:400})}}
+export async function DELETE(_:Request,{params}:{params:Promise<{sku:string}>}){const {sku}=await params;return await deletePart(decodeURIComponent(sku))?Response.json({ok:true}):Response.json({error:"Part not found"},{status:404})}

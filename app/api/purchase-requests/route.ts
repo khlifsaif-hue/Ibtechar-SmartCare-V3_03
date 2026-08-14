@@ -1,0 +1,3 @@
+import { createPurchaseRequest, listPurchaseRequests } from "../../lib/database";
+export async function GET(){return Response.json({requests:await listPurchaseRequests()})}
+export async function POST(request:Request){try{const body=await request.json() as Record<string,unknown>;if(!String(body.project||"").trim()||Number(body.amount||0)<=0)return Response.json({error:"Project and positive amount are required"},{status:400});return Response.json({request:await createPurchaseRequest(body)},{status:201})}catch(error){return Response.json({error:error instanceof Error?error.message:"Unable to create request"},{status:400})}}

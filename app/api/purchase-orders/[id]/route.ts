@@ -1,0 +1,3 @@
+import { deletePurchaseOrder, updatePurchaseOrder } from "../../../lib/database";
+export async function PATCH(request:Request,{params}:{params:Promise<{id:string}>}){try{const {id}=await params;const order=await updatePurchaseOrder(id,await request.json() as Record<string,unknown>);return order?Response.json({order}):Response.json({error:"PO not found"},{status:404})}catch(error){return Response.json({error:error instanceof Error?error.message:"Unable to update PO"},{status:400})}}
+export async function DELETE(_:Request,{params}:{params:Promise<{id:string}>}){const {id}=await params;return await deletePurchaseOrder(id)?Response.json({ok:true}):Response.json({error:"PO not found"},{status:404})}

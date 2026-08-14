@@ -1,0 +1,3 @@
+import { importUsers } from "../../../lib/database";
+import { hasSmartCarePermission } from "../../../lib/auth-server";
+export async function POST(request:Request){try{if(!await hasSmartCarePermission(request,"users","create"))return Response.json({error:"User-import permission required"},{status:403});const body=await request.json() as {rows?:Record<string,unknown>[]};if(!Array.isArray(body.rows))return Response.json({error:"rows array is required"},{status:400});return Response.json(await importUsers(body.rows));}catch(error){return Response.json({error:error instanceof Error?error.message:"Unable to import users"},{status:400})}}
