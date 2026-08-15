@@ -33,6 +33,9 @@ export type AssetRecord = {
   damagePercent?: number;
   financialVisible?: boolean;
   warningCount?: number;
+  quantity?: number;
+  notes?: string;
+  sourceLink?: string;
 };
 
 export const demoAssets: AssetRecord[] = [

@@ -1,6 +1,11 @@
 import { createClient } from "./supabase/server";
 import { findUserById, isPlatformAdministrator, type ModuleAction, userCan, userProjectCan } from "./database";
 
+/** Financial approval is deliberately narrower than general module access. */
+export function isPurchaseDecisionMaker(role?: string) {
+  return role === "CEO" || role === "ADMIN" || role === "FINANCE";
+}
+
 export async function getSmartCareActor(_request?: Request) {
   const supabase = await createClient();
   const { data, error } = await supabase.auth.getUser();

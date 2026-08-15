@@ -1,6 +1,6 @@
 {
   "name": "ibtechar-smartcare",
-  "version": "3.2.0",
+  "version": "3.1.0",
   "private": true,
   "engines": {
     "node": ">=22.13.0"
@@ -33,5 +33,5 @@
     "typescript": "5.9.3"
   },
   "type": "module",
-  "displayName": "Ibtechar SmartCare V3_02"
+  "displayName": "Ibtechar SmartCare V3_01"
 }
