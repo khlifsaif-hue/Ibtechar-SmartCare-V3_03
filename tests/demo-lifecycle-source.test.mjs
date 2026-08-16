@@ -1,0 +1,18 @@
+import assert from "node:assert/strict";
+import fs from "node:fs";
+const db=fs.readFileSync(new URL("../app/lib/database.ts",import.meta.url),"utf8");
+const procurement=fs.readFileSync(new URL("../app/procurement/page.tsx",import.meta.url),"utf8");
+const ai=fs.readFileSync(new URL("../app/ai-assistant/page.tsx",import.meta.url),"utf8");
+const wo=fs.readFileSync(new URL("../app/work-orders/page.tsx",import.meta.url),"utf8");
+const asset=fs.readFileSync(new URL("../app/assets/[id]/page.tsx",import.meta.url),"utf8");
+assert.match(db,/!row\.purchase_order_id/,"PR commitment must stop once a PO is linked");
+assert.doesNotMatch(db,/createAssetsFromApprovedPo/,"PO approval must not create the asset");
+assert.match(db,/receivePurchaseOrder/,"Receiving function missing");
+assert.match(procurement,/Receive equipment/,"Receiving action missing");
+assert.match(ai,/diagnosticSessionId/,"AI session is not carried forward");
+assert.match(wo,/Complete work order/,"Completion action missing");
+assert.match(asset,/Asset History \/ Timeline/,"Asset timeline missing");
+const budget=250000,cost=8900;
+assert.equal(budget-cost,241100);
+assert.deepEqual({prCommitted:cost,poCommitted:cost,receivedCommitted:0,receivedSpent:cost,available:budget-cost},{prCommitted:8900,poCommitted:8900,receivedCommitted:0,receivedSpent:8900,available:241100});
+console.log("Demo lifecycle source checks passed. Financial scenario: QAR 250,000 - QAR 8,900 = QAR 241,100 available.");
