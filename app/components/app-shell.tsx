@@ -10,7 +10,18 @@ import { useEffect, useMemo, useState } from "react";
 import { useSmartCareAuth } from "./auth-provider";
 
 const iconByKey:Record<string,typeof Home>={overview:Home,assets:Box,projects:WalletCards,project_dashboard:LayoutDashboard,purchase_requests:ClipboardList,procurement:ShoppingCart,inventory:Package,depreciation:Landmark,imports:Upload,maintenance:Wrench,work_orders:ClipboardList,ai_assistant:Sparkles,integrations:RadioTower,reports:FileBarChart,users:UsersRound,access_control:ShieldCheck,project_tasks:Target,project_risks:AlertTriangle};
-const modulePath=(key:string,path:string)=>key==="project_risks"?"/risks":path;
+const modulePath=(key:string,path:string)=>{
+  const mapped:Record<string,string>={
+    overview:"/",
+    project_risks:"/risks",
+    project_tasks:"/tasks",
+    project_budgets:"/projects",
+    spare_parts:"/inventory",
+    bulk_upload:"/imports",
+    lab_calendar:"/maintenance",
+  };
+  return mapped[key] || path;
+};
 
 export function AppShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
