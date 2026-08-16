@@ -36,6 +36,7 @@ export type AssetRecord = {
   quantity?: number;
   notes?: string;
   sourceLink?: string;
+  purchaseOrderId?: string;
 };
 
 export const demoAssets: AssetRecord[] = [
